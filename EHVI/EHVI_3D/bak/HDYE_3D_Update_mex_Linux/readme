@@ -1,0 +1,57 @@
+
+Compile command: g++ -Ofast -o EHVI -std=c++0x -mtune=corei7 *.cc
+
+These files are the codes for calucation expected improvement for 2D.
+
+How to run this:
+./EHVI test.txt sliceupdate
+
+Need to be update:
+Rename the function for 2D. 
+Now the name of the calculation expected improvement is "ehvi3d_sliceupdate".
+
+TO DO: 
+1. rename the function of "ehvi3d_sliceupdate" for 2D problem.
+2. Add the original "ehvi3d_sliceupdate" for 3D problem.
+3. Revise the reading file. Now for 2D problem, the input file follow the format of 3D problem. 
+	eg. 3D format:
+		3
+		2 3 1
+		1 2 1
+		9 2 1
+
+		5 5 5
+		1 1 1 0 0 0
+	    2D format:
+	        3
+		2 3 *
+		2 1 *
+                1 2 *
+
+		5 5 5
+		1 1 * 0 0 *
+         The aimed 2D format:
+	        3 
+		2 3
+		2 1
+		1 2
+		 
+		5 5
+		1 1 0 0
+
+		
+		
+
+	
+--------------------------------------------------------------------------------------------------------------
+20141202
+How to run mexw64 file:
+This mex64 file is complied by gcc on windows (mingw64), so in order to run this file, 2 options can make it:
+1. Install mingw64 4.9.1 version, and add all environment variables on windows
+2. Put all the dll files (bin.rar) in the same folder with mexw64 file 
+		
+		
+---------------------------------------------------------------------------------------------------------------
+20150225
+mex on linux
+command: mex -I/vol/home/yangk/local/MATLAB/R2014b/extern/include -O CXXFLAGS="\$CXXFLAGS -std=c++0x" main.cpp helper.cpp ehvi_sliceupdate.cpp ehvi_multi.cpp ehvi_montecarlo.cpp ehvi_hvol.cpp ehvi_calculations.cpp

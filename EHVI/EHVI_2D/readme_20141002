@@ -1,0 +1,46 @@
+
+Compile command: g++ -Ofast -o EHVI -std=c++0x -mtune=corei7 *.cc
+
+These files are the codes for calucation expected improvement for 2D.
+
+How to run this:
+./EHVI test.txt sliceupdate
+
+Need to be update:
+Rename the function for 2D. 
+Now the name of the calculation expected improvment is "ehvi3d_sliceupdate".
+
+TO DO: 
+1. rename the function of "ehvi3d_sliceupdate" for 2D problem.
+2. Add the original "ehvi3d_sliceupdate" for 3D problem.
+3. Revise the reading file. Now for 2D problem, the input file follow the format of 3D problem. 
+	eg. 3D format:
+		3
+		2 3 1
+		1 2 1
+		9 2 1
+
+		5 5 5
+		1 1 1 0 0 0
+	    2D format:
+	        3
+		2 3 *
+		2 1 *
+                1 2 *
+
+		5 5 5
+		1 1 * 0 0 *
+         The aimed 2D format:
+	        3 
+		2 3
+		2 1
+		1 2
+		 
+		5 5
+		1 1 0 0
+4.          
+
+
+--------------------------------------------------------------------------------------
+20150225
+This is orignal, the version do not fix problem 3 in TODO.
