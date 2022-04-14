@@ -15,4 +15,4 @@ $ g++ -Ofast -o EHVI -std=c++0x *.cc
 
 An illustration on how to use the code is provided in the "notebooks/Illustration of running experiments.ipynb". You would need [Jupyter notebook](https://jupyter.org/) to run that. 
 
-The data from the experiments ran for the paper is avaialble in the "data/experiments/" directory. 
+The data from the experiments ran for the paper is avaialble in the "data/experiments/" directory. For the meaning of the headers of that file, please refere to the illustrative notebook, in particular, the last paragraph where we introduced the keys to the labels. 
