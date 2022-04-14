@@ -14,3 +14,5 @@ $ g++ -Ofast -o EHVI -std=c++0x *.cc
 ```
 
 An illustration on how to use the code is provided in the "notebooks/Illustration of running experiments.ipynb". You would need [Jupyter notebook](https://jupyter.org/) to run that. 
+
+The data from the experiments ran for the paper is avaialble in the "data/experiments/" directory. 
