@@ -23,20 +23,48 @@ from scipy.stats import multivariate_normal as MVN
 
 def calc_hyp(P, samples, hpv, current_hpv, weights=None):
     """
-    P: Pareto front
-    samples: from Gauss-hermite, or MC
-    hpv: HV object Foseca 
+    A function to calculate the hypervolume improvement for a range of samples. 
+
+    Args.
+    P: Pareto front, and r x c numpy array, where c is the number of objectvies,
+    and r is the number of solutions. [r for row, c for columns]
+    samples: from Gauss-hermite, or MC. Again, r x c numpy array.
+    hpv: FonsecaHyperVolume object from evoalgos. 
+    current_hpv: current hypervolume value for P; intentionally done this way to
+    reduce the time of this particular routine.
+
+    Returns. 
+    EHVI for samples. 
     """
     improvement = [hpv.assess_non_dom_front(
                     np.concatenate([P,i[np.newaxis,:]])) - 
                     current_hpv for i in samples]
-    if weights is not None:
+    if weights is not None: # in case of MC
         return np.dot(improvement, weights)
-    else:
+    else: # in case of weighted samples, e.g. GH
         return np.average(improvement), np.std(improvement)
 
-def run_exp(mean, cov, pf, ref_vec, n_mc, n_gh, prune=0.2, code_base = "EHVI/EHVI_3D/", 
-            conf_filename = "test.txt"):
+def run_exp(mean, cov, pf, ref_vec, n_mc, n_gh, prune=0.2, 
+            code_base = "EHVI/EHVI_3D/", conf_filename = "test.txt"):
+    """
+    A function to run a single experiment that produces approximation for EHVI
+    using exact formula, MC and GH, for a given Gaussian predictive density,
+    the current estimated Pareto front, and the reference vector. 
+
+    Args. 
+    mean: mean of the Gaussian predictive distribution. 
+    cov: covariance of the Gaussian predictive distribution. 
+    pf: Pareto front. 
+    ref_vec: reference vector. 
+    n_mc: number of MC samples to use. 
+    n_gh: the number of GH points per dimension. This should be a list. 
+    prune: the percentage of points to prune; vary between 0 and 1.
+    code_base: exact formula code directory. 
+    conf_filename: what to call the file that is expected by the exact code. 
+
+    Returns.
+    A list of results and the associated labels. 
+    """
     hpv = FH(ref_vec)
     current_hv = hpv.assess_non_dom_front(pf)
     samples_mc = MVN.rvs(mean=mean, cov=cov, size=n_mc)
@@ -57,14 +85,20 @@ def run_exp(mean, cov, pf, ref_vec, n_mc, n_gh, prune=0.2, code_base = "EHVI/EHV
 # random generation of mean
 
 def get_mean(lb, ub):
+    """Get a random mean vector within the box defined by lower (lb) and 
+    upper (ub) bounds. 
+    """
     return np.random.random(len(lb))*(ub-lb)+lb
 def get_cov(lb, ub):
+    """Generate a corrrelated random covariance matrix between [0,..,0] and ub-lb. 
+    """
     return wishart.rvs(len(lb), np.eye(len(lb)))
 def get_cov_indep(lb, ub):
+    """Generate a diagonal covariance matrix between [0,..,0] and ub-lb. 
+    """
     ndim = len(lb)
     cov = np.zeros((ndim, ndim)) 
     np.fill_diagonal(cov, np.random.uniform(low=np.zeros(ndim), high=ub-lb)) 
-    # make sure different dimensions uncertainty
     return cov
 
 def repeated_runs(pf, ref_vec, lb, ub, n_runs, data_file, prune=0.2, nmc = 10000, 

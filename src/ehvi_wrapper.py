@@ -5,6 +5,9 @@
 Python wrapper the analytical EHVI for 2D and 3D using the code available in:
 https://liacs.leidenuniv.nl/~csmoda/index.php?page=code
 
+This is lazy wrapper that is required to run the EHVI analytical code 
+programmatically from within Python. 
+
 :Author:
    Alma Rahat   <a.a.m.rahat@swansea.ac.uk>
 :Date:
